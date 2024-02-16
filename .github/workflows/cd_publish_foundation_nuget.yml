@@ -1,0 +1,99 @@
+name: "Publish Foundation NuGet Packages : Back-End (Main)"
+
+on:
+  push:
+    paths:
+      - "BE/Base/Foundation/**"
+    branches: 
+      - main
+
+env:
+  DOTNET_SDK_VERSION: "8.0.100"
+
+jobs:
+  paths-filter:
+    runs-on: ubuntu-latest
+    outputs:
+        apis-changed: ${{ steps.filter.outputs.apis }}
+        application-changed: ${{ steps.filter.outputs.application }}
+        bootstrappers-changed: ${{ steps.filter.outputs.bootstrappers }}
+        common-changed: ${{ steps.filter.outputs.common }}
+        commonobjects-changed: ${{ steps.filter.outputs.commonobjects }}
+        domain-changed: ${{ steps.filter.outputs.domain }}
+        domaincasemodels-changed: ${{ steps.filter.outputs.domaincasemodels }}
+        drawing-changed: ${{ steps.filter.outputs.drawing }}
+        migrations-changed: ${{ steps.filter.outputs.migrations }}
+        repositories-changed: ${{ steps.filter.outputs.repositories }}
+        testing-changed: ${{ steps.filter.outputs.testing }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Define path filters
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            apis:
+              - 'BE/Base/Foundation/Apis/*.csproj'
+            application:
+              - 'BE/Base/Foundation/Application/*.csproj'
+            bootstrappers:
+              - 'BE/Base/Foundation/Bootstrappers/*.csproj'
+            common:
+              - 'BE/Base/Foundation/Common/*.csproj'
+            commonobjects:
+              - 'BE/Base/Foundation/Common.Objects/*.csproj'
+            domain:
+              - 'BE/Base/Foundation/Domain/*.csproj'
+            domaincasemodels:
+              - 'BE/Base/Foundation/Domain.CaseModels/*.csproj'
+            drawing:
+              - 'BE/Base/Foundation/Drawing/*.csproj'
+            migrations:
+              - 'BE/Base/Foundation/Migrations/*.csproj'
+            repositories:
+              - 'BE/Base/Foundation/Repositories/*.csproj'
+            testing:
+              - 'BE/Base/Foundation/Testing/*.csproj'
+
+  build-and-publish:
+    runs-on: ubuntu-latest
+    needs: paths-filter
+    if: ${{ needs.paths-filter.outputs.apis-changed == 'true' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v3.2.0
+        with:
+          dotnet-version: ${{ env.DOTNET_SDK_VERSION }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('BE/Base/Foundation/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: |
+          cd BE/Base/Foundation/Apis
+          dotnet restore Foundation.Apis.csproj 
+
+      - name: Build project
+        run: |
+          cd BE/Base/Foundation/Apis
+          dotnet build Foundation.Apis.csproj --no-incremental -c Release /p:Version=${{ steps.gitversion.outputs.semVer }}
+
+      - name: Pack project
+        run: |
+          cd BE/Base/Foundation/Apis
+          dotnet pack Foundation.Apis.csproj -c Release --no-build /p:Version=${{ steps.gitversion.outputs.semVer }}
+
+      - name: Publish NuGet package
+        run: |
+          cd BE/Base/Foundation/Apis
+          dotnet nuget push bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
