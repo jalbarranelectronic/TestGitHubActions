@@ -35,27 +35,27 @@ jobs:
         with:
           filters: |
             apis:
-              - 'BE/Base/Foundation/Apis/*.csproj'
+              - 'BE/Base/Foundation/Apis/**'
             application:
-              - 'BE/Base/Foundation/Application/*.csproj'
+              - 'BE/Base/Foundation/Application/**'
             bootstrappers:
-              - 'BE/Base/Foundation/Bootstrappers/*.csproj'
+              - 'BE/Base/Foundation/Bootstrappers/**'
             common:
-              - 'BE/Base/Foundation/Common/*.csproj'
+              - 'BE/Base/Foundation/Common/**'
             commonobjects:
-              - 'BE/Base/Foundation/Common.Objects/*.csproj'
+              - 'BE/Base/Foundation/Common.Objects/**'
             domain:
-              - 'BE/Base/Foundation/Domain/*.csproj'
+              - 'BE/Base/Foundation/Domain/**'
             domaincasemodels:
-              - 'BE/Base/Foundation/Domain.CaseModels/*.csproj'
+              - 'BE/Base/Foundation/Domain.CaseModels/**'
             drawing:
-              - 'BE/Base/Foundation/Drawing/*.csproj'
+              - 'BE/Base/Foundation/Drawing/**'
             migrations:
-              - 'BE/Base/Foundation/Migrations/*.csproj'
+              - 'BE/Base/Foundation/Migrations/**'
             repositories:
-              - 'BE/Base/Foundation/Repositories/*.csproj'
+              - 'BE/Base/Foundation/Repositories/**'
             testing:
-              - 'BE/Base/Foundation/Testing/*.csproj'
+              - 'BE/Base/Foundation/Testing/**'
 
   build-and-publish:
     runs-on: ubuntu-latest
