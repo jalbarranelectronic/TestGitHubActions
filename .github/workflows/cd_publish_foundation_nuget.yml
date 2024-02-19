@@ -13,52 +13,6 @@ env:
   DOTNET_SDK_VERSION: "8.0.100"
 
 jobs:
-  paths-filter:
-    runs-on: ubuntu-latest
-    outputs:
-        apis-changed: ${{ steps.filter.outputs.apis }}
-        application-changed: ${{ steps.filter.outputs.application }}
-        bootstrappers-changed: ${{ steps.filter.outputs.bootstrappers }}
-        common-changed: ${{ steps.filter.outputs.common }}
-        commonobjects-changed: ${{ steps.filter.outputs.commonobjects }}
-        domain-changed: ${{ steps.filter.outputs.domain }}
-        domaincasemodels-changed: ${{ steps.filter.outputs.domaincasemodels }}
-        drawing-changed: ${{ steps.filter.outputs.drawing }}
-        migrations-changed: ${{ steps.filter.outputs.migrations }}
-        repositories-changed: ${{ steps.filter.outputs.repositories }}
-        testing-changed: ${{ steps.filter.outputs.testing }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4.1.1
-
-      - name: Define path filters
-        uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            apis:
-              - 'BE/Base/Foundation/Apis/**'
-            application:
-              - 'BE/Base/Foundation/Application/**'
-            bootstrappers:
-              - 'BE/Base/Foundation/Bootstrappers/**'
-            common:
-              - 'BE/Base/Foundation/Common/**'
-            commonobjects:
-              - 'BE/Base/Foundation/Common.Objects/**'
-            domain:
-              - 'BE/Base/Foundation/Domain/**'
-            domaincasemodels:
-              - 'BE/Base/Foundation/Domain.CaseModels/**'
-            drawing:
-              - 'BE/Base/Foundation/Drawing/**'
-            migrations:
-              - 'BE/Base/Foundation/Migrations/**'
-            repositories:
-              - 'BE/Base/Foundation/Repositories/**'
-            testing:
-              - 'BE/Base/Foundation/Testing/**'
-
   build-and-publish:
     runs-on: ubuntu-latest
     needs: paths-filter
