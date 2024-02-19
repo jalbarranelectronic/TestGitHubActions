@@ -17,5 +17,10 @@
         {
             // Some code
         }
+
+        public void Method3()
+        {
+            // Some code
+        }
     }
 }
