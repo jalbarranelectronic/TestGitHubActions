@@ -110,4 +110,4 @@ jobs:
       - name: Publish NuGet package
         run: |
           cd BE/Base/Foundation/Apis
-          dotnet nuget push bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json
+          dotnet nuget push bin/Release/*.nupkg --source https://nuget.pkg.github.com/jalbarranelectronic/index.json
