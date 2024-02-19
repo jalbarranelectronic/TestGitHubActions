@@ -93,7 +93,10 @@ jobs:
           cd BE/Base/Foundation/Apis
           dotnet pack Foundation.Apis.csproj -c Release --no-build /p:Version=${{ steps.gitversion.outputs.semVer }}
 
+      - name: Authenticate with NuGet
+        run: dotnet nuget add source https://nuget.pkg.github.com/jalbarranelectronic/index.json --name 'nuget.org' --username 'jalbarranelectronic' --password ${{ secrets.GITHUB_TOKEN }}
+
       - name: Publish NuGet package
         run: |
           cd BE/Base/Foundation/Apis
-          dotnet nuget push bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+          dotnet nuget push bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json
