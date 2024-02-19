@@ -2,10 +2,6 @@ name: "Publish Foundation NuGet Packages : Back-End (Main)"
 
 on:
   push:
-    paths:
-      - "BE/Base/Foundation/**"
-    branches: 
-      - main
     tags:
       - foundation-*
 
