@@ -22,17 +22,11 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_SDK_VERSION }}    
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.7
-        with:
-          versionSpec: '5.x'
-
       - name: Get version from tag
         id: release_info
         uses: revam/gh-action-get-tag-and-version@v1
         with:
           tag: ${{ github.ref }}
-          prefix: f
           prefixRegex: "foundation-"
 
       - name: Restore dependencies on Foundation solution
