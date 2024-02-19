@@ -27,7 +27,7 @@ jobs:
         uses: revam/gh-action-get-tag-and-version@v1
         with:
           tag: ${{ github.ref }}
-          prefixRegex: "foundation-"
+          prefix: foundation-
 
       - name: Restore dependencies on Foundation solution
         run: |
