@@ -42,29 +42,29 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('BE/Base/Foundation/*.csproj') }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('BE/**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Restore dependencies
+      - name: Restore dependencies on Foundation solution
         run: |
-          cd BE/Base/Foundation/Apis
-          dotnet restore Foundation.Apis.csproj 
+          cd BE
+          dotnet restore TestGitHubActions.Foundation.sln 
 
-      - name: Build project
+      - name: Build Foundation solution
         run: |
-          cd BE/Base/Foundation/Apis
-          dotnet build Foundation.Apis.csproj --no-incremental -c Release /p:Version=${{ steps.gitversion.outputs.semVer }} /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemFileVer }} /p:FileVersion=${{ steps.gitversion.outputs.assemblySemFileVer }}
+          cd BE
+          dotnet build TestGitHubActions.Foundation.sln  --no-incremental -c Release /p:Version=${{ steps.gitversion.outputs.semVer }}
 
-      - name: Pack project
+      - name: Pack Foundation solution
         run: |
-          cd BE/Base/Foundation/Apis
-          dotnet pack Foundation.Apis.csproj -c Release --no-build /p:Version=${{ steps.gitversion.outputs.semVer }}
+          cd BE
+          dotnet pack TestGitHubActions.Foundation.sln -c Release --no-build /p:Version=${{ steps.gitversion.outputs.semVer }}
 
       - name: Authenticate with NuGet
         run: dotnet nuget add source https://nuget.pkg.github.com/jalbarranelectronic/index.json --name github --username 'jalbarranelectronic' --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
 
-      - name: Publish NuGet package
+      - name: Publish NuGet packages
         run: |
-          cd BE/Base/Foundation/Apis
-          dotnet nuget push bin/Release/*.nupkg --source https://nuget.pkg.github.com/jalbarranelectronic/index.json
+          cd BE
+          dotnet nuget push BE/Base/Foundation/**/*.nupkg --source https://nuget.pkg.github.com/jalbarranelectronic/index.json
