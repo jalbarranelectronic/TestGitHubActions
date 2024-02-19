@@ -22,5 +22,10 @@
         {
             // Some code
         }
+
+        public void Method4()
+        {
+            // Some code
+        }
     }
 }
