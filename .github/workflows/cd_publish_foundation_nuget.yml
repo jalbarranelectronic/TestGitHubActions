@@ -3,7 +3,7 @@ name: "Publish Foundation NuGet Packages : Back-End (Main)"
 on:
   push:
     tags:
-      - foundation/*
+      - foundation-*
 
 env:
   DOTNET_SDK_VERSION: "8.0.100"
