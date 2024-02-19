@@ -6,6 +6,8 @@ on:
       - "BE/Base/Foundation/**"
     branches: 
       - main
+    tags:
+      - foundation-*
 
 env:
   DOTNET_SDK_VERSION: "8.0.100"
