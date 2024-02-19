@@ -86,7 +86,7 @@ jobs:
       - name: Build project
         run: |
           cd BE/Base/Foundation/Apis
-          dotnet build Foundation.Apis.csproj --no-incremental -c Release /p:Version=${{ steps.gitversion.outputs.semVer }}
+          dotnet build Foundation.Apis.csproj --no-incremental -c Release /p:Version=${{ steps.gitversion.outputs.semVer }} /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemFileVer }} /p:FileVersion=${{ steps.gitversion.outputs.assemblySemFileVer }}
 
       - name: Pack project
         run: |
