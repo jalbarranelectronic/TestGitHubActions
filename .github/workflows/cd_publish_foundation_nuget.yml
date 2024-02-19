@@ -50,4 +50,4 @@ jobs:
       - name: Publish NuGet packages
         run: |
           cd BE
-          dotnet nuget push BE/Base/Foundation/**/*.nupkg --source https://nuget.pkg.github.com/jalbarranelectronic/index.json
+          dotnet nuget push Base/Foundation/**/*.nupkg --source https://nuget.pkg.github.com/jalbarranelectronic/index.json
