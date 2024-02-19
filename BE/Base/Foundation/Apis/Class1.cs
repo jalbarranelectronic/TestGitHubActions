@@ -7,5 +7,10 @@
         int z = 0;
 
         CancellationToken cancellationToken;
+
+        public void Method1()
+        {
+            // Some code
+        }
     }
 }
